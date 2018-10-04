@@ -10,3 +10,45 @@
     border-radius: 5px;
     margin-top: 20px;
 }
+
+.bookmark-list {
+    list-style: none;
+    width: 95%;
+}
+
+.js-bookmark-element{
+    align-self: center;
+    width: 75%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 0  auto;
+    margin-top: 10px;
+    padding: 10px 0px 10px 0px;
+
+}
+
+.bookmark-name{
+    text-align: left;
+    display: inline;
+}
+
+#stars {
+    display: inline;
+    list-style-type: none;
+    padding: 0;
+}
+
+#stars li {
+    display: inline-block;
+    padding: 5px;
+}
+
+
+
+.rating-stars {
+    align-content: horizontal;
+}
+
+.filled {
+    color: red;
+}
