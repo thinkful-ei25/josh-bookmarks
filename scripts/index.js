@@ -2,7 +2,8 @@
 
 function generateBookmarkELement(item) {
   let itemName = `<span class="bookmark-name">${item.name}</span>`;
-  return `<li class='js-bookmark-element'>${itemName} is rated ${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}
+  return `<li class='js-bookmark-element'><span class="title-of">${itemName}</span> 
+  <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
 </li>`;
 }
 

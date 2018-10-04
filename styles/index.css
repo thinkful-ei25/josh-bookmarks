@@ -52,3 +52,31 @@
 .filled {
     color: red;
 }
+
+.title-of{
+    display: inline;
+    margin-left: 5px;
+}
+
+.rating-of{
+    display: inline;
+    margin-right: 5px;
+}
+
+.add-and-filter{
+    width: 100%;
+}
+
+.dd-menu {
+    position: absolute;
+    top: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0;
+    margin: 2px 0 0 0;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,0.1);
+    background-color: #ffffff;
+    list-style-type: none;
+  }
+
+  
