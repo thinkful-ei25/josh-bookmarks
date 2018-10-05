@@ -2,16 +2,24 @@
 /* global store, api, $ */
 
 // eslint-disable-next-line no-unused-vars
+
+$.fn.extend({
+  serializeJson: function() {
+    const formData = new FormData(this[0]);
+    const o = {};
+    formData.forEach((val, name) => o[name] = val);
+    return JSON.stringify(o);
+  }
+});
+
 const bookmarkList = (function(){
 
     function render() {
         let bookmarks = store.items;
-       // let items = store.items;
 
         console.log('`render` ran');
         const bookmarkListItemsString = generateBookmarkItemsString(bookmarks);
         handleNewItemSubmit();
-           // insert that HTML into the DOM
         $('.js-bookmark-list').html(bookmarkListItemsString);
         $('#error').html(store.errorMessage);
         if(store.addingItem){
@@ -21,7 +29,7 @@ const bookmarkList = (function(){
 
   function generateBookmarkElement(item) {
 
-    let itemName = `<span class="bookmark-name">${item.name}</span>`;
+    let itemName = `<span class="bookmark-name">${item.title}</span>`;
         return `<li class='js-bookmark-element'><span class="title-of">${itemName}</span>
         <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
       </li>`;
@@ -85,16 +93,19 @@ function generateForm(){
 
 
   function handleNewItemSubmit() {
-    $('#reused_form').on('submit', function(event) {
+    $(document).on('submit', '#reused_form', function(event) {
       event.preventDefault();
-    //   const newItemName = $('.js-shopping-list-entry').val();
-    //   $('.js-shopping-list-entry').val('');
+      newItemName = $(event.target).serializeJson();;
       api.createItem(newItemName, handleApiError,(item) => {
         store.addItem(item);
+        store.toggleAddingItem();
+        console.log(store.addingItem);
         render();
       });
     });
   }
+
+
 
 
 
@@ -122,7 +133,7 @@ function generateForm(){
     });
   }
 
-  function handleAddItem(){
+  function handleAddingItem(){
     $('.addButton').on('click', function(){
       store.addingItem = true;
       console.log('you clicked add item');
@@ -131,7 +142,7 @@ function generateForm(){
 }
 
   function bindEventListeners() {
-    handleAddItem();
+    handleAddingItem();
   }
 
   // This object contains the only exposed methods from this module:

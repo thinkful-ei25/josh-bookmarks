@@ -1,6 +1,4 @@
-/* global cuid */
 
-// eslint-disable-next-line no-unused-vars
 const Item = (function(){
 
     const validateName = function(name) {
