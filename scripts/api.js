@@ -14,13 +14,13 @@ const api = (function () {
   }
 
 
-  function createItem(name, onError, callback) {
+  function createItem(data, onError, callback) {
     const newItemString = JSON.stringify({name});
     $.ajax({
       url: `${BASE_URL}`,
       method: 'POST',
       contentType: 'application/json',
-      data: newItemString,
+      data: data,
       success: callback,
       error: onError
     });

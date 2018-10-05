@@ -3,27 +3,35 @@
 
 // eslint-disable-next-line no-unused-vars
 
-$.fn.extend({
-  serializeJson: function() {
-    const formData = new FormData(this[0]);
-    const o = {};
-    formData.forEach((val, name) => o[name] = val);
-    return JSON.stringify(o);
-  }
-});
 
 const bookmarkList = (function(){
+
+
+    $.fn.extend({
+      serializeJson: function() {
+        const formData = new FormData(this[0]);
+        const o = {};
+        formData.forEach((val, name) => {
+          if(name === "rating"){
+            val = parseInt(val, 10);
+          }
+          o[name] = val});
+        return JSON.stringify(o);
+      }
+    });
 
     function render() {
         let bookmarks = store.items;
 
         console.log('`render` ran');
         const bookmarkListItemsString = generateBookmarkItemsString(bookmarks);
-        handleNewItemSubmit();
-        $('.js-bookmark-list').html(bookmarkListItemsString);
+        $('#js-bookmark-list').html(bookmarkListItemsString);
         $('#error').html(store.errorMessage);
         if(store.addingItem){
             $('.adding').html(generateForm());
+        }
+        else{
+          $('#reused_form').hide();
         }
     }
 
@@ -69,15 +77,16 @@ function generateForm(){
     return `
     <div id="form-div">
       <form id="reused_form">
-        <input name="name" type="text" placeholder="Website Name" id="name" />
-        <select class="rating">
+        <input name="title" type="text" placeholder="Website Name" id="name" />
+        <input name="url" type="text" placeholder="http://" id="url" />
+        <select name="rating" class="rating">
           <option value="5">5 Stars</option>
           <option value="4">4 Stars</option>
           <option value="3">3 Stars</option>
           <option value="2">2 Stars</option>
           <option value="1">1 Stars</option>
         </select>
-        <textarea name="message" id="comment" placeholder="Describe in your own words"></textarea>
+        <textarea name="desc" id="comment" placeholder="Describe in your own words"></textarea>
         <input id="js-submit" class="js-submitButton" type="submit" value="SUBMIT" />
       </form>
     </div>`;
@@ -93,12 +102,13 @@ function generateForm(){
 
 
   function handleNewItemSubmit() {
-    $(document).on('submit', '#reused_form', function(event) {
+    $('.container').on('submit', '#reused_form', function(event) {
       event.preventDefault();
-      newItemName = $(event.target).serializeJson();;
+      store.toggleAddingItem();
+      const newItemName = $(event.target).serializeJson();
+      console.log(newItemName);
       api.createItem(newItemName, handleApiError,(item) => {
         store.addItem(item);
-        store.toggleAddingItem();
         console.log(store.addingItem);
         render();
       });
@@ -141,8 +151,16 @@ function generateForm(){
     });
 }
 
+  function handleFocus(){
+    $('#js-bookmarks-list').on('click', '.js-bookmark-element', e =>{
+      console.log('clicked');
+    });
+  }
+
   function bindEventListeners() {
     handleAddingItem();
+    handleNewItemSubmit();
+    handleFocus();
   }
 
   // This object contains the only exposed methods from this module:

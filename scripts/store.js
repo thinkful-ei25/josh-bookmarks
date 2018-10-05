@@ -5,10 +5,10 @@ const store = (function(){
     this.items.push(item);
   };
 
-  const addingItem = false;
+  let addingItem = false;
 
   const toggleAddingItem = function(){
-      addingItem = !addItem;
+      this.addingItem = !this.addingItem;
   }
 
   const findById = function(id) {
