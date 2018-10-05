@@ -1,6 +1,6 @@
 'use strict';
 /* global store, api, $ */
-
+let rater = 0;
 // eslint-disable-next-line no-unused-vars
 
 
@@ -22,7 +22,7 @@ const bookmarkList = (function(){
 
     function render() {
         let bookmarks = store.items;
-
+        console.log(rater);
         console.log('`render` ran');
         const bookmarkListItemsString = generateBookmarkItemsString(bookmarks);
         $('#js-bookmark-list').html(bookmarkListItemsString);
@@ -37,24 +37,25 @@ const bookmarkList = (function(){
 
   function generateBookmarkElement(item) {
 
-
-    let itemName = `<span class="bookmark-name">${item.title}</span>`;
-    if(item.expanded){
-      return `<li class='js-bookmark-element' data-id="${item.id}"><span class="title-of">${itemName}</span>
-      <br>
-      <div class="js-description">${item.desc}</div>
-        <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
-        <br>
-        </li>
-        <div class="visit-and-delete">
-        <a href="${item.url}">Visit Site!</a>
-            <button class="js-delete" data-id="${item.id}" >Delete</button>
-        </div>
-        `
-    }
+    if(item.rating >= rater || rater === 8){
+      let itemName = `<span class="bookmark-name">${item.title}</span>`;
+      if(item.expanded){
         return `<li class='js-bookmark-element' data-id="${item.id}"><span class="title-of">${itemName}</span>
-        <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
-      </li>`;
+        <br>
+        <div class="js-description">${item.desc}</div>
+          <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
+          <br>
+          </li>
+          <div class="visit-and-delete">
+          <a href="${item.url}">Visit Site!</a>
+              <button class="js-delete" data-id="${item.id}" >Delete</button>
+          </div>
+          `
+      }
+          return `<li class='js-bookmark-element' data-id="${item.id}"><span class="title-of">${itemName}</span>
+          <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
+        </li>`;
+      }
     }
 
     function handleDelete(){
@@ -129,6 +130,8 @@ function generateForm(){
 
 
 
+
+
   function handleApiError(error){
     store.setErrorMessage(error.responseJSON.message);
     console.log(error);
@@ -161,12 +164,15 @@ function generateForm(){
 
 
 
-//   function handleRatingFilter() {
-//     $('.js-filter-checked').click(() => {
-//       store.toggleCheckedFilter();
-//       render();
-//     });
-//   }
+  function handleRatingFilter() {
+    $('#js-rating-filter').change( e => {
+      let value = $('#js-rating-filter option:selected').text();
+      rater = parseInt(value, 10);
+      console.log(rater);
+      console.log(`you moved the dropdown to ${value}`);
+      render();
+    });
+  }
 
 
 
@@ -201,6 +207,7 @@ function getIdFromElement(item){
     handleNewItemSubmit();
     handleFocus();
     handleDelete();
+    handleRatingFilter();
   }
 
   // This object contains the only exposed methods from this module:
