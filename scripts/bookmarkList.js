@@ -9,9 +9,7 @@ const bookmarkList = (function(){
         // insert that HTML into the DOM
         $('.js-bookmark-list').html(bookmarkListItemString);
         if(store.adding){
-            $('.adding').html(generateForm());
-        }if(store.adding){
-            $('.adding').html(generateForm());
+            // $('.adding').html(generateForm());
         }
     }
 
@@ -29,7 +27,7 @@ const bookmarkList = (function(){
 
     function generateBookmarkElement(item) {
         let itemName = `<span class="bookmark-name">${item.title}</span>`;
-        return `<li class='js-bookmark-element'><span class="title-of">${itemName}</span> 
+        return `<li class='js-bookmark-element'><span class="title-of">${itemName}</span>
         <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
       </li>`;
     }
@@ -45,7 +43,7 @@ const bookmarkList = (function(){
         }
         return myStarString;
       }
-      
+
     function getStarWidgetUnfilled(num){
         let count = 5 - num;
         let myStarString = ``;
@@ -58,21 +56,34 @@ const bookmarkList = (function(){
         return myStarString;
     }
 
+    // function handleNewItemSubmit() {
+    //     // this function will be responsible for when users add a new shopping list item
+    //     $('#js_submit').submit( event => {
+    //       console.log('event', event);
+    //       event.preventDefault();
+    //       const newItemName = $('#name').val();
+    //       const rating = $('.rating').val();
+    //       const description = $('#comment').val();
+    //       createNewItem(newItemName, rating, description);
+    //       console.log('submited new item');
+    //       return false;
+    //     });
+    //     console.log('`handleNewItemSubmit` ran');
+    // }
+
     function handleNewItemSubmit() {
-        // this function will be responsible for when users add a new shopping list item
-        $('#js_submit').submit( event => {
-          console.log('event', event);
-          event.preventDefault();
-          const newItemName = $('#name').val();
-          const rating = $('.rating').val();
-          const description = $('#comment').val();
-          createNewItem(newItemName, rating, description);
-          console.log('submited new item');
-          return false;
+      alert('kio');
+      $('#reused_form').submit(function(event) {
+        event.preventDefault();
+      //   const newItemName = $('.js-shopping-list-entry').val();
+      //   $('.js-shopping-list-entry').val('');
+        api.createItem(newItemName, handleApiError,(item) => {
+          store.addItem(item);
+          render();
         });
-        console.log('`handleNewItemSubmit` ran');
+      });
     }
-      
+
     function createNewItem(name, rating, description){
         store.bookmarks.push({id: cuid(), title: title, url: irl, desc:, desc, rating: rating});
     }
@@ -113,7 +124,6 @@ const bookmarkList = (function(){
       }
 
     function bindEventListeners(){
-        handleNewItemSubmit();
         handleAddItem();
         handleExpand();
         render();

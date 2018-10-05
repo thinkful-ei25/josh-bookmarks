@@ -7,10 +7,10 @@ const bookmarkList = (function(){
     function render() {
         let bookmarks = store.items;
        // let items = store.items;
-      
+
         console.log('`render` ran');
         const bookmarkListItemsString = generateBookmarkItemsString(bookmarks);
-       
+        handleNewItemSubmit();
            // insert that HTML into the DOM
         $('.js-bookmark-list').html(bookmarkListItemsString);
         $('#error').html(store.errorMessage);
@@ -22,12 +22,12 @@ const bookmarkList = (function(){
   function generateBookmarkElement(item) {
 
     let itemName = `<span class="bookmark-name">${item.name}</span>`;
-        return `<li class='js-bookmark-element'><span class="title-of">${itemName}</span> 
+        return `<li class='js-bookmark-element'><span class="title-of">${itemName}</span>
         <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
       </li>`;
     }
-  
-  
+
+
   function generateBookmarkItemsString(bookmarkList) {
     console.log("Generating bookmark element");
     const bookmarks = bookmarkList.map((item) => generateBookmarkElement(item));
@@ -45,7 +45,7 @@ const bookmarkList = (function(){
     }
     return myStarString;
   }
-  
+
     function getStarWidgetUnfilled(num){
     let count = 5 - num;
     let myStarString = ``;
@@ -60,7 +60,7 @@ const bookmarkList = (function(){
 function generateForm(){
     return `
     <div id="form-div">
-      <form id="reused_form"  >
+      <form id="reused_form">
         <input name="name" type="text" placeholder="Website Name" id="name" />
         <select class="rating">
           <option value="5">5 Stars</option>
@@ -70,22 +70,22 @@ function generateForm(){
           <option value="1">1 Stars</option>
         </select>
         <textarea name="message" id="comment" placeholder="Describe in your own words"></textarea>
-        <button id="js-submit" class="js-submitButton">SUBMIT</button>
+        <input id="js-submit" class="js-submitButton" type="submit" value="SUBMIT" />
       </form>
     </div>`;
 }
-  
-  
+
+
 
   function handleApiError(error){
     store.setErrorMessage(error.responseJSON.message);
     render();
     store.setErrorMessage(null);
   }
-  
-  
+
+
   function handleNewItemSubmit() {
-    $('#reused_form').submit(function (event) {
+    $('#reused_form').on('submit', function(event) {
       event.preventDefault();
     //   const newItemName = $('.js-shopping-list-entry').val();
     //   $('.js-shopping-list-entry').val('');
@@ -95,24 +95,24 @@ function generateForm(){
       });
     });
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
 //   function handleRatingFilter() {
 //     $('.js-filter-checked').click(() => {
 //       store.toggleCheckedFilter();
 //       render();
 //     });
 //   }
-  
 
-  
+
+
   function fetchInitialItems() {
     api.getItems( handleApiError, (items) => {
       items.forEach((item) => {
@@ -129,7 +129,7 @@ function generateForm(){
      render();
     });
 }
-  
+
   function bindEventListeners() {
     handleAddItem();
   }
