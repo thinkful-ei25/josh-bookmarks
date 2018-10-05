@@ -97,9 +97,11 @@ const bookmarkList = (function(){
 
     function bindEventListeners(){
         handleAddItem();
+        render();
 
     }
 
-    return render();
+    return render, 
+    bindEventListeners;
 
 })();
