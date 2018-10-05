@@ -1,5 +1,6 @@
 'use strict';
 
+
 function generateBookmarkELement(item) {
   let itemName = `<span class="bookmark-name">${item.name}</span>`;
   return `<li class='js-bookmark-element'><span class="title-of">${itemName}</span> 
@@ -15,9 +16,7 @@ function getStarWidgetFilled(num){
       <i class='fa fa-star filled'></i>
       </li>`
       currentCount ++;
-      console.log('the current count is ' + currentCount)
   }
-  console.log('the final current count is ' + currentCount)
   return myStarString;
 }
 
@@ -50,20 +49,33 @@ function renderBookmarkList() {
 
   // insert that HTML into the DOM
   $('.js-bookmark-list').html(bookmarkListItemString);
+  //if adding
+  if(store.adding){
+    $('.adding').html(generateForm())
+  }
 }
 
 
-function handleNewItemSubmit() {
+// function handleNewItemSubmit() {
   // this function will be responsible for when users add a new shopping list item
+  $('#reused_form').on('click', '.js-submitButton', event => {
+    console.log('event', event);
+    event.preventDefault();
+    const newItemName = $('#name').val();
+    const rating = $('.rating').val();
+    const description = $('#comment').val();
+    createNewItem(newItemName, rating, description);
+    console.log('submited new item');
+    return false;
+  });
   console.log('`handleNewItemSubmit` ran');
+//}
+
+function createNewItem(name, rating, description){
+  store.bookmarks.push({id: cuid(), name: name, rating: rating, description: description});
 }
 
 
-function handleItemCheckClicked() {
-  // this function will be responsible for when users click the "check" button on
-  // a shopping list item.
-  console.log('`handleItemCheckClicked` ran');
-}
 
 
 function handleDeleteItemClicked() {
@@ -78,8 +90,43 @@ function handleDeleteItemClicked() {
 // for individual shopping list items.
 function handleBookmarkList() {
   renderBookmarkList();
-
+  handleAddItem();
+  handleItemExpand();
+  //handleNewItemSubmit();
 }
 
-// when the page loads, call `handleShoppingList`
+
+function generateForm(){
+  return `
+  <div id="form-div">
+    <form id="reused_form"  >
+      <input name="name" type="text" placeholder="Website Name" id="name" />
+      <select class="rating">
+        <option value="5">5 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="2">2 Stars</option>
+        <option value="1">1 Stars</option>
+      </select>
+      <textarea name="message" id="comment" placeholder="Describe in your own words"></textarea>
+      <button id="js-submit" class="js-submitButton">SUBMIT</button>
+    </form>
+  </div>`;
+}
+
+function handleAddItem(){
+  $('.addButton').on('click', function(){
+    store.adding = true;
+    console.log('you clicked add item');
+   renderBookmarkList();
+  });
+}
+
+function handleItemExpand(){
+  $(document).on('click', 'js-bookmark-element', function(){
+    console.log('YOu clicked a bookmark');
+  })
+}
+
+// when the page loads, call `handleBookmarList`
 $(handleBookmarkList);

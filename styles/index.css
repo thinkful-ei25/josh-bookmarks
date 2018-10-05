@@ -79,4 +79,12 @@
     list-style-type: none;
   }
 
-  
+
+  #name, .rating, #comment, .button-blue{
+      
+      display: block;
+      align: center;
+      margin: 0 auto;
+      margin-top: 20px;
+  }
+
