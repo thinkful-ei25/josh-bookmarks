@@ -9,8 +9,14 @@ const bookmarkList = (function(){
         // insert that HTML into the DOM
         $('.js-bookmark-list').html(bookmarkListItemString);
         if(store.adding){
-            $('.adding').html(generateForm())
+            $('.adding').html(generateForm());
         }
+    }
+
+    function handleExpand(){
+        $('li.js-bookmark-element').on('click', function(){
+            console.log('clicking an element');
+        });
     }
 
     function generateBookmarkItemsString(bookmarkList) {
@@ -50,24 +56,24 @@ const bookmarkList = (function(){
         return myStarString;
     }
 
-    // function handleNewItemSubmit() {
-    //     // this function will be responsible for when users add a new shopping list item
-    //     $('#reused_form').on('click', '.js-submitButton', event => {
-    //       console.log('event', event);
-    //       event.preventDefault();
-    //       const newItemName = $('#name').val();
-    //       const rating = $('.rating').val();
-    //       const description = $('#comment').val();
-    //       createNewItem(newItemName, rating, description);
-    //       console.log('submited new item');
-    //       return false;
-    //     });
-    //     console.log('`handleNewItemSubmit` ran');
-    // }
+    function handleNewItemSubmit() {
+        // this function will be responsible for when users add a new shopping list item
+        $('#reused_form').submit( event => {
+          console.log('event', event);
+          event.preventDefault();
+          const newItemName = $('#name').val();
+          const rating = $('.rating').val();
+          const description = $('#comment').val();
+          createNewItem(newItemName, rating, description);
+          console.log('submited new item');
+          return false;
+        });
+        console.log('`handleNewItemSubmit` ran');
+    }
       
-    // function createNewItem(name, rating, description){
-    //     store.bookmarks.push({id: cuid(), name: name, rating: rating, description: description});
-    // }
+    function createNewItem(name, rating, description){
+        store.bookmarks.push({id: cuid(), name: name, rating: rating, description: description});
+    }
 
     function generateForm(){
         return `
@@ -91,17 +97,18 @@ const bookmarkList = (function(){
         $('.addButton').on('click', function(){
           store.adding = true;
           console.log('you clicked add item');
-         renderBookmarkList();
+         render();
         });
     }
 
     function bindEventListeners(){
+        handleNewItemSubmit();
         handleAddItem();
+        handleExpand();
         render();
 
     }
 
-    return render, 
-    bindEventListeners;
+    return bindEventListeners();
 
 })();
