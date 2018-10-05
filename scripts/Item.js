@@ -10,10 +10,10 @@ const Item = (function(){
     const create = function(name) {
       return {
         id: cuid(),
-        name,
-        link,
+        title,
+        url,
+        desc,
         rating,
-        description,
         expanded: false
       };
     };

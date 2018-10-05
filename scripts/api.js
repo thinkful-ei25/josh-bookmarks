@@ -27,31 +27,9 @@ const api = (function () {
   }
 
 
-  function updateItem(id, updateData, onError, callback){
-    $.ajax({
-      url: `${BASE_URL}/${id}`,
-      method: 'PATCH',
-      contentType: 'application/json',
-      data: JSON.stringify(updateData),
-      success: callback,
-      error: onError
-    });
-  }
-
-  function deleteItem(id, onError, callback){
-    $.ajax({
-      url:`${BASE_URL}/${id}`,
-      method: 'DELETE',
-      contentType: 'application/json',
-      success: callback,
-      error: onError
-    });
-  }
 
   return {
     getItems,
-    createItem,
-    updateItem,
-    deleteItem
+    createItem
   };
 })();
