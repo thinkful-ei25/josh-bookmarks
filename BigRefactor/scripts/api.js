@@ -5,19 +5,19 @@ const api = (function () {
 
   function getItems(onError, callback) {
     $.ajax({
-      url: `${BASE_URL}/items`,
+      url: `${BASE_URL}`,
       method: 'GET',
       dataType: 'json',
       success: callback,
       error: onError
     });
   }
- 
+
 
   function createItem(name, onError, callback) {
     const newItemString = JSON.stringify({name});
     $.ajax({
-      url: `${BASE_URL}/items`,
+      url: `${BASE_URL}`,
       method: 'POST',
       contentType: 'application/json',
       data: newItemString,
@@ -25,11 +25,11 @@ const api = (function () {
       error: onError
     });
   }
-  
-  
+
+
   function updateItem(id, updateData, onError, callback){
     $.ajax({
-      url: `${BASE_URL}/items/${id}`,
+      url: `${BASE_URL}/${id}`,
       method: 'PATCH',
       contentType: 'application/json',
       data: JSON.stringify(updateData),
@@ -40,7 +40,7 @@ const api = (function () {
 
   function deleteItem(id, onError, callback){
     $.ajax({
-      url:`${BASE_URL}/items/${id}`,
+      url:`${BASE_URL}/${id}`,
       method: 'DELETE',
       contentType: 'application/json',
       success: callback,

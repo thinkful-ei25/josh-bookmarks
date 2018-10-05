@@ -5,7 +5,7 @@ const store = (function(){
     this.items.push(item);
   };
 
-  const addItem = false;
+  const addingItem = false;
 
   const toggleAddingItem = function(){
       addingItem = !addItem;
@@ -35,16 +35,16 @@ const store = (function(){
     items: [],
     searchTerm: '',
     errorMessage: null,
-
+    addItem,
     addingItem,
     findById,
-    findAndUpdate,
+    // findAndUpdate,
     findAndDelete,
     toggleExpandedFilter,
     setSearchTerm,
-    setItemIsEditing,
+    // setItemIsEditing,
     setErrorMessage,
     toggleAddingItem
   };
-  
+
 }());
