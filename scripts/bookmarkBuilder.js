@@ -166,7 +166,7 @@ function generateForm(){
 
   function handleRatingFilter() {
     $('#js-rating-filter').change( e => {
-      let value = $('#js-rating-filter option:selected').text();
+      let value = $('#js-rating-filter option:selected').val();
       rater = parseInt(value, 10);
       console.log(rater);
       console.log(`you moved the dropdown to ${value}`);
