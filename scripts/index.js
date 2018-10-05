@@ -3,7 +3,6 @@
 $(document).ready(function() {
   bookmarkList.bindEventListeners();
   bookmarkList.fetchInitialItems();
-  bookmarkList.render(); 
 });
 
 

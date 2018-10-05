@@ -88,3 +88,8 @@
       margin-top: 20px;
   }
 
+.js-description{
+    min-height: 50px;
+    border: 2 px solid black;
+    border-radius: 5px;
+}

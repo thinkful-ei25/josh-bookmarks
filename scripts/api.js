@@ -26,10 +26,32 @@ const api = (function () {
     });
   }
 
+  function updateItem(id, data, callback) {
+    $.ajax({
+      method: 'PATCH',
+      url: `${BASE_URL}/${id}`,
+      data: JSON.stringify(data),
+      success: callback,
+      contentType: "application/json"
+    });
+  }
+
+  function deleteItem(id, onError, callback) {
+    $.ajax({
+      url: `${BASE_URL}/${id}`,
+      method: 'DELETE',
+      contentType: 'application/json',
+      success: callback,
+      error: onError
+    });
+  }
+
 
 
   return {
     getItems,
-    createItem
+    createItem,
+    updateItem,
+    deleteItem
   };
 })();

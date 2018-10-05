@@ -8,10 +8,10 @@ const Item = (function(){
     const create = function(name) {
       return {
         id: cuid(),
-        title,
-        url,
-        desc,
-        rating,
+        title: name.title,
+        url: name.url,
+        desc: name.desc,
+        rating: name.rating,
         expanded: false
       };
     };

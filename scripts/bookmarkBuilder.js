@@ -37,12 +37,47 @@ const bookmarkList = (function(){
 
   function generateBookmarkElement(item) {
 
+
     let itemName = `<span class="bookmark-name">${item.title}</span>`;
-        return `<li class='js-bookmark-element'><span class="title-of">${itemName}</span>
+    if(item.expanded){
+      return `<li class='js-bookmark-element' data-id="${item.id}"><span class="title-of">${itemName}</span>
+      <br>
+      <div class="js-description">${item.desc}</div>
+        <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
+        <br>
+        </li>
+        <div class="visit-and-delete">
+        <a href="${item.url}">Visit Site!</a>
+            <button class="js-delete" data-id="${item.id}" >Delete</button>
+        </div>
+        `
+    }
+        return `<li class='js-bookmark-element' data-id="${item.id}"><span class="title-of">${itemName}</span>
         <span class=rating-of>${getStarWidgetFilled(item.rating)}${getStarWidgetUnfilled(item.rating)}</span>
       </li>`;
     }
 
+    function handleDelete(){
+      $('.container').on('click', '.js-delete', e => {
+        console.log('clicked delete');
+        const id = $(e.currentTarget).data('id');
+        console.log(id)
+        api.deleteItem(id, handleApiError, () => {
+          console.log('trying findAndDelete');
+          store.findAndDelete(id);
+          render();
+        })
+      });
+    }
+
+    function handleFocus(){
+      $('#js-bookmark-list').on('click', 'li', e =>{
+        const id = getIdFromElement(e.currentTarget);
+        const item = store.findById(id);
+        item.expanded = !item.expanded;
+        render();
+      });
+    }
 
   function generateBookmarkItemsString(bookmarkList) {
     console.log("Generating bookmark element");
@@ -96,6 +131,7 @@ function generateForm(){
 
   function handleApiError(error){
     store.setErrorMessage(error.responseJSON.message);
+    console.log(error);
     render();
     store.setErrorMessage(null);
   }
@@ -136,6 +172,7 @@ function generateForm(){
 
   function fetchInitialItems() {
     api.getItems( handleApiError, (items) => {
+      console.log(items);
       items.forEach((item) => {
        store.addItem(item);
       });
@@ -151,16 +188,19 @@ function generateForm(){
     });
 }
 
-  function handleFocus(){
-    $('#js-bookmarks-list').on('click', '.js-bookmark-element', e =>{
-      console.log('clicked');
-    });
-  }
+function getIdFromElement(item){
+  return $(item)
+  .closest('.js-bookmark-element')
+  .data('id');
+}
+
+ 
 
   function bindEventListeners() {
     handleAddingItem();
     handleNewItemSubmit();
     handleFocus();
+    handleDelete();
   }
 
   // This object contains the only exposed methods from this module:

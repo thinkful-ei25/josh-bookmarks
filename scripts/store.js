@@ -11,6 +11,11 @@ const store = (function(){
       this.addingItem = !this.addingItem;
   }
 
+  const findAndUpdate = function(id, newData) {
+    const item = this.findById(id);
+    Object.assign(item, newData);
+  };
+
   const findById = function(id) {
     return this.items.find(item => item.id === id);
   };
@@ -24,6 +29,10 @@ const store = (function(){
     this.errorMessage = errorMessage;
   };
 
+  const findAndDelete = function(id) {
+    this.items = this.items.filter(item => item.id !== id);
+  };
+
   return {
     items: [],
     errorMessage: null,
@@ -32,7 +41,9 @@ const store = (function(){
     findById,
     toggleExpandedFilter,
     setErrorMessage,
-    toggleAddingItem
+    toggleAddingItem,
+    findAndUpdate,
+    findAndDelete
   };
 
 }());
