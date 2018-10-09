@@ -144,13 +144,21 @@ function generateForm(){
     $('.container').on('submit', '#reused_form', function(event) {
       event.preventDefault();
       store.toggleAddingItem();
-      const newItemName = $(event.target).serializeJson();
-      console.log(newItemName);
-      api.createItem(newItemName, handleApiError,(item) => {
-        store.addItem(item);
-        console.log(store.addingItem);
+      const url = $('#url').val();
+      if(url.startsWith('http') || url.startsWith('https')){
+        const newItemName = $(event.target).serializeJson();
+        console.log(newItemName);
+        api.createItem(newItemName, handleApiError,(item) => {
+          store.addItem(item);
+          console.log(store.addingItem);
+          render();
+        });
+      }
+      else{
+        alert('must start with http or https');
         render();
-      });
+      }
+ 
     });
   }
 

@@ -10,28 +10,30 @@
     <link rel="stylesheet" type="text/css" href="styles/index.css">
 </head>
 <body>
-    <div class="container">
-        <h1>My Bookmarks Page!</h1>
-        <div class="add-and-filter">
-            <button class="addButton">Add a Bookmark!</button>
-            <select name="rating" id="js-rating-filter">
-                <option value="8">Filter by Rating</option>
-                <option value="8">Filter Off</option>
-                <option value="5">5 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="2">2 Stars</option>
-                <option value="1">1 Stars</option>
-            </select>
-        </div>
-        <div class="adding"></div>
-        <div class="list">
-            <ul class="bookmark-list" id="js-bookmark-list">
+    <main>
+        <div class="container">
+            <h1>My Bookmarks Page!</h1>
+            <div class="add-and-filter">
+                <button class="addButton">Add a Bookmark!</button>
+                <select name="rating" id="js-rating-filter" aria-label="rating-filter">
+                    <option value="8">Filter by Rating</option>
+                    <option value="8">Filter Off</option>
+                    <option value="5">5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="1">1 Stars</option>
+                </select>
+            </div>
+            <div class="adding"></div>
+            <div class="list">
+                <ul class="bookmark-list" id="js-bookmark-list">
 
-            </ul>
+                </ul>
+            </div>
         </div>
-    </div>
-
+    </main>
+    
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cuid/1.3.8/browser-cuid.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
